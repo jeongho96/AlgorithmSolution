@@ -1,3 +1,4 @@
+# 일반적으로 구현해서 풀면 시간초과가 걸리기 때문에 deque를 사용해야한다.
 import sys
 from collections import deque
 
