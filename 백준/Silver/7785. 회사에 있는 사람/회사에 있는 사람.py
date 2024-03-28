@@ -1,12 +1,13 @@
 N = int(input())
-enter_log = {}
-for i in range(N):
-    name, log = map(str, input().split())
-    enter_log[name] = log
+enter_set = set()
 
-answer_list = [key for key, value in enter_log.items() if value == "enter"]      
+for _ in range(N):
+    name, log = input().split()
+    if log == "enter":
+        enter_set.add(name)
+    else:  # log == "leave"
+        enter_set.remove(name)
 
-answer_list.sort(reverse=True)
-
-for i in answer_list:
-    print(i)
+# 사전 역순으로 정렬하여 출력
+for name in sorted(enter_set, reverse=True):
+    print(name)
