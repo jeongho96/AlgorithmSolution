@@ -1,3 +1,5 @@
+# 141652kB, 624ms
+
 from sys import stdin
 from collections import Counter
 
