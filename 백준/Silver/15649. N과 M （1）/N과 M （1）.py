@@ -1,28 +1,15 @@
+from itertools import permutations
 from sys import stdin
-
 read = stdin.readline
 
 n, m = map(int, read().split())
 
-visited = [False] * n
-answers = [] 
-answer = []
+# 1부터 n까지의 숫자 리스트 생성
+nums = [i for i in range(1, n+1)]
 
+# nums 리스트에서 m개를 선택하는 모든 순열을 구함
+perms = permutations(nums, m)
 
-def back_tracking(index, n, m):
-
-    if index == m:
-
-        answers.append(' '.join(map(str, answer)))
-        return 
-    for i in range(n):
-        if not visited[i]:
-            visited[i] = True
-            answer.append(i + 1)
-            back_tracking(index + 1, n, m)
-            visited[i] = False
-            answer.pop()
-
-
-back_tracking(0, n, m)
-print('\n'.join(answers))
+# 구한 순열을 출력
+for perm in perms:
+    print(' '.join(map(str, perm)))
