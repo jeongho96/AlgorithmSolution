@@ -1,4 +1,5 @@
 from sys import stdin
+
 input = stdin.readline
 
 # 끝말잇기 기록 입력
@@ -13,8 +14,14 @@ for i in range(N):
         question_index = i
 
 # '?' 전후 단어 확인
-first_word = word_list[question_index - 1][-1] if question_index > 0 else ""
-last_word = word_list[question_index + 1][0] if question_index < N - 1 else ""
+last_word = ""
+first_word = ""
+
+if question_index > 0:
+    first_word = word_list[question_index - 1][-1]
+
+if question_index < N - 1:
+    last_word = word_list[question_index + 1][0]
 
 # 후보 단어 입력 및 검증
 M = int(input().rstrip())
