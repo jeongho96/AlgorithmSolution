@@ -1,13 +1,19 @@
-from sys import stdin
+# 43924KB, 88ms
 
+from sys import stdin
 input = stdin.readline
 
-N, M = map(int, input().rstrip().split())
-N_set = set(input().rstrip() for _ in range(N))
-M_set = set(input().rstrip() for _ in range(M))
+N, M = map(int, input().split())
 
-# 두 집합의 교집합을 구한 후 리스트로 변환하고 정렬
-answer = sorted(list(N_set & M_set))
+notHear = set()
+for _ in range(N):
+    notHear.add(input())
+
+notSee = set()
+for _ in range(M):
+    notSee.add(input())
+
+answer = sorted(list(notHear & notSee))
 
 print(len(answer))
-print('\n'.join(answer))
+print(''.join(answer), end = '')
