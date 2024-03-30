@@ -3,20 +3,11 @@ from sys import stdin
 input = stdin.readline
 
 N, M = map(int, input().rstrip().split())
-N_set = set()  # 집합으로 변경
-answer = []
-cnt = 0
+N_set = set(input().rstrip() for _ in range(N))
+M_set = set(input().rstrip() for _ in range(M))
 
-for _ in range(N):
-    person = input().rstrip()
-    N_set.add(person)  # 리스트 대신 집합에 추가
+# 두 집합의 교집합을 구한 후 리스트로 변환하고 정렬
+answer = sorted(list(N_set & M_set))
 
-for _ in range(M):
-    person = input().rstrip()
-    if person in N_set:  # 집합에서 요소의 존재 여부를 확인
-        answer.append(person)
-        cnt += 1
-
-answer.sort()
-print(cnt)
-print(*answer, sep='\n')
+print(len(answer))
+print('\n'.join(answer))
