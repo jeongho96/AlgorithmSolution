@@ -1,58 +1,84 @@
-n, m, r = map(int, input().split())
-arr = [list(map(int, input().split())) for _ in range(n)]
-operations = list(map(int, input().split()))
+from sys import stdin
 
-def op1(arr):
-    return arr[::-1]
+input = stdin.readline
 
-def op2(arr):
-    return [row[::-1] for row in arr]
+n, m, r = map(int, input().rstrip().split())
 
-def op3(arr):
-    return list(zip(*arr[::-1]))
+matrix = [list(map(int, input().rstrip().split())) for i in range(n)]
 
-def op4(arr):
-    return list(zip(*arr))[::-1]
+numbers = list(map(int, input().rstrip().split()))
 
-def op5(arr):
-    n = len(arr)
-    m = len(arr[0])
-    new_arr = [[0]*m for _ in range(n)]
-    for i in range(n//2):
-        for j in range(m//2):
-            new_arr[i][j+m//2] = arr[i][j]
-            new_arr[i+n//2][j+m//2] = arr[i][j+m//2]
-            new_arr[i+n//2][j] = arr[i+n//2][j+m//2]
-            new_arr[i][j] = arr[i+n//2][j]
-    return new_arr
 
-def op6(arr):
-    n = len(arr)
-    m = len(arr[0])
-    new_arr = [[0]*m for _ in range(n)]
-    for i in range(n//2):
-        for j in range(m//2):
-            new_arr[i+n//2][j] = arr[i][j]
-            new_arr[i][j] = arr[i][j+m//2]
-            new_arr[i][j+m//2] = arr[i+n//2][j+m//2]
-            new_arr[i+n//2][j+m//2] = arr[i+n//2][j]
-    return new_arr
+def operation1(matrix):
+    return matrix[::-1]
 
-for op in operations:
-    if op == 1:
-        arr = op1(arr)
-    elif op == 2:
-        arr = op2(arr)
-    elif op == 3:
-        arr = list(op3(arr))
+
+def operation2(matrix):
+    return [row[::-1] for row in matrix]
+
+
+def operation3(matrix):
+    result = [[0] * n for _ in range(m)]  # 회전한 결과를 표시하는 배열
+
+    for i in range(n):
+        for j in range(m):
+            result[j][n - i - 1] = matrix[i][j]
+    return result
+
+
+def operation4(matrix):
+    result = [[0] * n for _ in range(m)]  # 회전한 결과를 표시하는 배열
+
+    for i in range(n):
+        for j in range(m):
+            result[m - j - 1][i] = matrix[i][j]
+    return result
+
+def operation5(matrix):
+    temp_matrix = [[0] * m for _ in range(n)]
+    for i in range(n // 2):
+        for j in range(m // 2):
+            # 1 -> 2
+            temp_matrix[i][j + m//2] = matrix[i][j]
+            # 2 -> 3
+            temp_matrix[i + n//2][j + m//2] = matrix[i][j + m//2]
+            # 3 -> 4
+            temp_matrix[i + n//2][j] = matrix[i + n//2][j + m//2]
+            # 4 -> 1
+            temp_matrix[i][j] = matrix[i + n//2][j]
+    return temp_matrix
+
+def operation6(matrix):
+    temp_matrix = [[0] * m for _ in range(n)]
+    for i in range(n // 2):
+        for j in range(m // 2):
+            # 1 -> 4
+            temp_matrix[i + n // 2][j] = matrix[i][j]
+            # 2 -> 1
+            temp_matrix[i][j] = matrix[i][j + m // 2]
+            # 3 -> 2
+            temp_matrix[i][j + m // 2] = matrix[i + n // 2][j + m // 2]
+            # 4 -> 3
+            temp_matrix[i + n//2][j + m//2] = matrix[i + n//2][j]
+
+    return temp_matrix
+
+
+for number in numbers:
+    if number == 1:
+        matrix = operation1(matrix)
+    elif number == 2:
+        matrix = operation2(matrix)
+    elif number == 3:
+        matrix = operation3(matrix)
+        n,m = m, n
+    elif number == 4:
+        matrix = operation4(matrix)
         n, m = m, n
-    elif op == 4:
-        arr = list(op4(arr))
-        n, m = m, n
-    elif op == 5:
-        arr = op5(arr)
-    elif op == 6:
-        arr = op6(arr)
+    elif number == 5:
+        matrix = operation5(matrix)
+    elif number == 6:
+        matrix = operation6(matrix)
 
-for row in arr:
+for row in matrix:
     print(' '.join(map(str, row)))
