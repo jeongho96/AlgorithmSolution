@@ -1,45 +1,38 @@
-def distance(house, chicken):
-    return abs(house[0] - chicken[0]) + abs(house[1] - chicken[1])
+# 입력 처리
+N, M = map(int, input().split())
+city = [list(map(int, input().split())) for _ in range(N)]
 
-def chicken_delivery(N, M, city, selected, idx):
+# 집과 치킨집 위치 저장
+houses = []
+chicken = []
+for i in range(N):
+    for j in range(N):
+        if city[i][j] == 1:
+            houses.append((i, j))
+        elif city[i][j] == 2:
+            chicken.append((i, j))
+
+answer = float('inf')
+
+# 치킨 거리 계산 함수
+def get_chicken_distance(selected):
+    distance = 0
+    for hx, hy in houses:
+        distance += min([abs(hx-cx) + abs(hy-cy) for cx, cy in selected])
+    return distance
+
+# 백트래킹을 이용한 치킨집 선택
+def select_chicken(start, selected):
+    global answer
+    # 종료 조건: 선택한 치킨집이 M개일 때
     if len(selected) == M:
-        total_distance = 0
-        for house in houses:
-            min_chicken_distance = float('inf')
-            for idx in selected:
-                min_chicken_distance = min(min_chicken_distance, distance(house, chicken_houses[idx]))
-            total_distance += min_chicken_distance
-        return total_distance
+        answer = min(answer, get_chicken_distance(selected))
+        return
     
-    if idx == len(chicken_houses):
-        return float('inf')
-    
-    # 현재 치킨집을 선택하는 경우
-    selected.append(idx)
-    min_distance_with = chicken_delivery(N, M, city, selected, idx + 1)
-    selected.pop()
-    
-    # 현재 치킨집을 선택하지 않는 경우
-    min_distance_without = chicken_delivery(N, M, city, selected, idx + 1)
-    
-    return min(min_distance_with, min_distance_without)
+    for i in range(start, len(chicken)):
+        select_chicken(i+1, selected + [chicken[i]])
 
-if __name__ == "__main__":
-    N, M = map(int, input().split())
-    city = [list(map(int, input().split())) for _ in range(N)]
-    
-    chicken_houses = []
-    houses = []
-    
-    # 치킨집과 집의 위치를 찾음
-    for i in range(N):
-        for j in range(N):
-            if city[i][j] == 2:
-                chicken_houses.append((i, j))
-            elif city[i][j] == 1:
-                houses.append((i, j))
-    
-    selected = []
-    result = chicken_delivery(N, M, city, selected, 0)
-    
-    print(result)
+# 초기 치킨집 선택 시작
+select_chicken(0, [])
+
+print(answer)
