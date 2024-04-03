@@ -1,10 +1,17 @@
-k = int(input())
-list1 = []
-for i in range(k):
-    number = int(input())
-    if number == 0:
-        list1.pop()
-    else:
-        list1.append(number)
+from sys import stdin
 
-print(sum(list1))
+input = stdin.readline
+
+K = int(input().rstrip())
+
+stack = []
+
+for _ in range(K):
+    n = int(input().rstrip())
+
+    if n == 0:
+        stack.pop()
+    elif n != 0:
+        stack.append(n)
+
+print(sum(stack))
