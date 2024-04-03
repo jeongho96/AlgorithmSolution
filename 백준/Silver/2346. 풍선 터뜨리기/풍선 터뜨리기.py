@@ -1,25 +1,16 @@
+from collections import deque
+
 N = int(input())
-balloons = list(map(int, input().split()))
-
+balloons = deque([(idx, val) for idx, val in enumerate(map(int, input().split()), start=1)])
 result = []
-index = 0
-length = N
 
-for _ in range(N):
-    result.append(str(index + 1))
-    move = balloons[index]
-    balloons[index] = 0  # 현재 풍선을 터뜨림
+while balloons:
+    idx, move = balloons.popleft()
+    result.append(str(idx))
     
-    if _ < N-1:  # 마지막 풍선이 아니라면
-        if move > 0:
-            while move > 0:
-                index = (index + 1) % length
-                if balloons[index] != 0:
-                    move -= 1
-        else:
-            while move < 0:
-                index = (index - 1 + length) % length
-                if balloons[index] != 0:
-                    move += 1
+    if move > 0:
+        balloons.rotate(-(move - 1))
+    else:
+        balloons.rotate(-move)
 
 print(' '.join(result))
